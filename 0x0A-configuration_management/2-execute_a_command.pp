@@ -1,6 +1,6 @@
-# create a manifest that kills a process named killmenow
-
-exec { 'pkill':
-  command  => 'pkill -f killmenow',
+# kills a process
+exec { 'killmenow':
+  command  => '/usr/bin/pkill killmenow',
   provider => 'shell',
+  returns  => [0, 1],
 }

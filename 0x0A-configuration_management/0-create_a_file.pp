@@ -1,7 +1,6 @@
-# create a file in /tmp with specific requirements
-
-file { 'school':
-  path    => '/tmp/school',
+# creates a file in the /tmp directory
+file { '/tmp/school':
+  ensure  => 'file',
   mode    => '0744',
   owner   => 'www-data',
   group   => 'www-data',
