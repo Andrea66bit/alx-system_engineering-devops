@@ -1,16 +1,8 @@
-# Seting up my client config file
-include stdlib
+# best practices
 
-file_line { 'Turn off passwd auth':
-  ensure => present,
-  path   => '/etc/ssh/ssh_config',
-  line   => '    PasswordAuthentication no',
-  replace => true,
-}
+$content = "Host *\n\tIdentityFile ~/.ssh/school\n\tPasswordAuthentication no"
 
-file_line { 'Delare identity file':
-  ensure => present,
-  path   => '/etc/ssh/ssh_config',
-  line   => '     IdentityFile ~/.ssh/school',
-  replace => true,
+file { '/etc/ssh/ssh_config':
+    ensure  => 'present',
+    content => $content,
 }
