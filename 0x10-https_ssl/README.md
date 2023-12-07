@@ -1,8 +1,4 @@
 0x10. HTTPS SSL
-Non-exhaustive guide to debugging
-School specific
-If you are struggling to get something right that is run on the checker, like a Bash script or a piece of code, keep in mind that you can simulate the flow by starting a Docker container with the distribution that is specified in the requirements and by running your code. Check the Docker concept page for more info.
-
 Test and verify your assumptions
 The idea is to ask a set of questions until you find the issue. For example, if you installed a web server and it isn’t serving a page when browsing the IP, here are some questions you can ask yourself to start debugging:
 
@@ -61,3 +57,13 @@ Does the server have the correct firewall rules? iptables, ufw:
 iptables -L
 sudo ufw status
 Process issue
+If a piece of Software isn’t behaving as expected, it can obviously be because of above reasons… but the good news is that there is more to look into (there is ALWAYS more to look into actually).
+
+Is the software started? init, init.d:
+service NAME_OF_THE_SERVICE status
+/etc/init.d/NAME_OF_THE_SERVICE status
+Is the software process running? pgrep, ps:
+pgrep -lf NAME_OF_THE_PROCESS
+ps auxf
+Is there anything interesting in the logs? look for log files in /var/log/ and tail -f is your friend
+Debugging is fun
