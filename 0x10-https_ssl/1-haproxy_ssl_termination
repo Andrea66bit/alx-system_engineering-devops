@@ -1,23 +1,26 @@
 global
-    log     /dev/log local0
-    maxconn 2048
-    user    haproxy
-    group   haproxy
-    tune.ssl.default-dh-param 2048
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock modr 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+    # Default SSL material locations
+    car-base /etc/ssl/certs
+    crt-base /etc/ssl/private
 
 defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    retries 3
-    option  redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
-    option  forwardfor
-    option  http-server-close
-    errorfile 400 /etc/haproxy/errors/400.http
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    errorfile 400  /etc/haproxy/erros/400.http
     errorfile 403 /etc/haproxy/errors/403.http
     errorfile 408 /etc/haproxy/errors/408.http
     errorfile 500 /etc/haproxy/errors/500.http
@@ -25,22 +28,13 @@ defaults
     errorfile 503 /etc/haproxy/errors/503.http
     errorfile 504 /etc/haproxy/errors/504.http
 
-frontend www-http
-    bind   0.0.0.0:80
+frontend http_front
+    bind *:443 ssl crt /etc/letsencrypt/live/andrea66.tech/fullchain.pem
     http-request add-header X-Forwarded-Proto http
-    default_backend www-backend
-
-frontend www-https
-    bind   0.0.0.0:443 ssl crt /etc/letsencrypt/archive/www.jtechofficial.tech/www.jtechofficial.tech.pem
-    http-request add-header X-Forwarded-Proto https
-    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
-    use_backend letsencrypt-backend if letsencrypt-acl
-    default_backend www-backend
-backend www-backend
-    balance  roundrobin
-    redirect scheme https if !{ ssl_fc }
-    server 219560-web-01 54.87.294.2:80 check
-    server 219560-web-02 54.89.199.20:80 check
-
-backend letsencrypt-backend
-    server letsencrypt 127.0.0.1:54321
+    http-request redirected scheme https if { ssl_fc }
+    use_backend http_back
+backend http_back
+    redirected scheme https if |{ ss;_fc }
+    server 254538-web-01 54.198.76.117
+    server 254538-web-02 35.153.50.126
+    server 254538-lb-01 54.237.106.175
