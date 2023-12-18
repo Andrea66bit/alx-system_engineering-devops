@@ -1,0 +1,6 @@
+0x11-what_happens_when_your_type_google_com_in_your_browser_and_press_enter
+So, when you type google.com or any URL in the browser and hit enter, the browser checks the browser cache for the DNS records. If it doesn't find the IP then the browser makes a system call to the operating system of the computer to get the IP address as OS also maintains the OS cache.
+
+Domain Name System (DNS) Request
+When you enter a domain name on your browser, the browser saves the DNS record in its cache. Thus, when you type the damon name such as “google.com”, the browser checks its cache for the most recent copy of the DNS record for the domain. If there is a recent copy of the DNS record for  that domain, the browser uses IP addresses in the cache to send a request to the server. This speeds up the process of converting the domain name to an IP address because it bypasses the need to send a request to the DNS server. 
+However, if the browser cache does not have a recent copy of the DNS record or if the DNS record has been updated since the last time it as cached, the browser sends a request to the DNS server to convert the domain name to an IP address. The DNS lookup process is a complex process with different stages as explained below.
