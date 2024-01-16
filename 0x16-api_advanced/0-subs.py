@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Function to retireive the number of subscribers for a specific subreddit."""
+"""Function ro retrieve the number of subscribers for a specific subreddit."""
 import requests
 
 
@@ -7,7 +7,7 @@ def number_of_subscribers(subreddit):
     """queries the subreddit."""
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {
-        # "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+        # "Users-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
         "User-Agent": "linux:0x16.api.advanced"
 
     }
